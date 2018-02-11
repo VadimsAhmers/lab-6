@@ -1,14 +1,10 @@
-import org.xml.sax.SAXException;
-
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args){
         String macSVGPath = "/Users/macbook/Downloads/__FILES_FOR_LABS/clouds.svg";
+        String schemaForSVG = "";
 
-        SVGDOMProcessor svgdomProcessor = new SVGDOMProcessor(macSVGPath,"");
-        try {
-            svgdomProcessor.process();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        }
+        XMLProcessor XMLProcessor = new XMLProcessor(macSVGPath,schemaForSVG);
+
+            XMLProcessor.process();
     }
 }
