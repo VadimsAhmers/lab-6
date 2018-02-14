@@ -18,12 +18,12 @@ public class XMLProcessor {
     private String fileName;
     private String schemaName;
 
-    XMLProcessor(String fileName, String schemaName){
+    XMLProcessor(String fileName, String schemaName) {
         this.fileName = fileName;
         this.schemaName = schemaName;
     }
 
-    private Document readXML() throws SAXException{
+    private Document readXML() throws SAXException {
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         //System.out.println("documentBuilderFactory = " + documentBuilderFactory);
 
@@ -51,7 +51,7 @@ public class XMLProcessor {
         }
     }
 
-    void process(){
+    void process() {
         try {
             Document document = readXML();
             findPrintFigures(document);
@@ -64,7 +64,7 @@ public class XMLProcessor {
         }
     }
 
-    private void findPrintFigures(Document document){
+    private void findPrintFigures(Document document) {
 
         Element root = document.getDocumentElement();
         NodeList rectangles = root.getElementsByTagName("rect");
@@ -72,18 +72,18 @@ public class XMLProcessor {
 
         for (int i = 0; i < rectangles.getLength(); i++) {
 
-            System.out.printf("Прямоугольник №%d: ", i+1);
+            System.out.printf("Прямоугольник №%d: ", i + 1);
             NamedNodeMap attributes = rectangles.item(i).getAttributes();
 
             for (int j = 0; j < attributes.getLength(); j++) {
                 Node attribute = attributes.item(j);
-                System.out.print(attribute.getNodeName()+ "=" + attribute.getNodeValue() + " ");
+                System.out.print(attribute.getNodeName() + "=" + attribute.getNodeValue() + " ");
             }
             System.out.println();
         }
         for (int i = 0; i < circles.getLength(); i++) {
 
-            System.out.printf("Окружность №%d: ", i+1);
+            System.out.printf("Окружность №%d: ", i + 1);
             NamedNodeMap attributes = circles.item(i).getAttributes();
 
             for (int j = 0; j < attributes.getLength(); j++) {
@@ -94,7 +94,7 @@ public class XMLProcessor {
         }
     }
 
-    private void pointCircleCentre(Document document){
+    private void pointCircleCentre(Document document) {
         Element root = document.getDocumentElement();
         NodeList circles = root.getElementsByTagName("circle");
 
@@ -104,7 +104,9 @@ public class XMLProcessor {
             Node center = circle.cloneNode(true);
             NamedNodeMap centerAttributes = center.getAttributes();
             centerAttributes.getNamedItem("r").setNodeValue("1");
-            parentNode.insertBefore(center, circle);
+            //Node next= center.getNextSibling();
+            //if (next != null)
+            parentNode.insertBefore(center, circle.getNextSibling());
             i++;
 
             System.out.print("Центр окружности: ");
@@ -115,7 +117,7 @@ public class XMLProcessor {
         }
     }
 
-    private void changeColor(Document document){
+    private void changeColor(Document document) {
         Element root = document.getDocumentElement();
         NodeList rectangles = root.getElementsByTagName("rect");
         NodeList paths = root.getElementsByTagName("path");
@@ -132,17 +134,17 @@ public class XMLProcessor {
 
     }
 
-    private void saveXML (Document document) throws IOException{
+    private void saveXML(Document document) throws IOException {
         Result result = new StreamResult(new FileWriter("result.xml"));
         DOMSource domSource = new DOMSource(document);
 
         Transformer transformer;
-        try{
+        try {
             transformer = TransformerFactory.newInstance().newTransformer();
             transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.transform(domSource, result);
-        }catch (TransformerException e){
+        } catch (TransformerException e) {
             e.printStackTrace();
         }
     }

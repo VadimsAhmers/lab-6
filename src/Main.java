@@ -3,8 +3,11 @@ public class Main {
         String macSVGPath = "/Users/macbook/Downloads/__FILES_FOR_LABS/clouds.svg";
         String schemaForSVG = "";
 
-        XMLProcessor XMLProcessor = new XMLProcessor(macSVGPath,schemaForSVG);
+      // XMLProcessor XMLProcessor = new XMLProcessor(macSVGPath,schemaForSVG);
 
-            XMLProcessor.process();
+            //XMLProcessor.process();
+
+        StAXProcessor stAXProcessor = new StAXProcessor();
+        stAXProcessor.process();
     }
 }
