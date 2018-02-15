@@ -19,6 +19,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class StAXProcessor {
+    List<String> busStopList = new ArrayList<>();
+    Map<String, StreetData> streetMap = new TreeMap<String, StreetData>();
 
     void process() {
         String xsdFileName = "/Users/macbook/Downloads/__FILES_FOR_LABS/osm.xsd";
@@ -34,8 +36,6 @@ public class StAXProcessor {
         try {
             XMLStreamReader xmlStreamReader = xmlInputFactory.createXMLStreamReader(new FileReader(fileName));
 
-            List<String> busStopList = new ArrayList<>();
-            Map<String, StreetData> streetMap = new TreeMap<String, StreetData>();
             int count = 0;
 
             while (xmlStreamReader.hasNext()) {
